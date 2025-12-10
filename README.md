@@ -251,7 +251,7 @@ And now:
 
 You can:
 
-- Embed `index.html` into your existing **OnePAD** or other HR / case management portals.
+- Embed `index.html` into your existing **Website** or other HR / case management portals.
 - Connect the backend API to:
   - A case management database
   - A dashboard for ELiDA / partner CSOs

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SafeWeb – TFGBV Digital Safety Toolkit (Multilingual)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="SafeWeb is a prototype digital toolkit to prevent, detect, and respond to Technology-Facilitated Gender-Based Violence (TFGBV), with multilingual and voice support.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="app-header">
+    <div class="branding">
+        <div class="logo-circle">SW</div>
+        <div>
+            <h1 id="text-app-title">SafeWeb</h1>
+            <p class="tagline" id="text-app-tagline">Digital Safety &amp; TFGBV Response Toolkit</p>
+        </div>
+    </div>
+    <div class="header-right">
+        <nav class="top-nav">
+            <button class="nav-btn active" data-target="dashboard" id="nav-dashboard">Dashboard</button>
+            <button class="nav-btn" data-target="detect" id="nav-detect">Detect</button>
+            <button class="nav-btn" data-target="report" id="nav-report">Report</button>
+            <button class="nav-btn" data-target="chatbot" id="nav-chatbot">Chatbot</button>
+            <button class="nav-btn" data-target="awareness" id="nav-awareness">Awareness</button>
+            <button class="nav-btn" data-target="safety" id="nav-safety">Safety Plan</button>
+        </nav>
+        <div class="lang-switcher">
+            <label for="lang-select" id="label-language">Language</label>
+            <select id="lang-select">
+                <option value="en">English</option>
+                <option value="am">አማርኛ</option>
+                <option value="om">Afaan Oromo</option>
+            </select>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="view active">
+        <div class="grid">
+            <section class="card span-2">
+                <h2 id="dash-title">Welcome to SafeWeb</h2>
+                <p id="dash-intro-1">
+                    This prototype was built for the ELiDA Digital Tool Development Challenge to tackle
+                    <strong>Technology-Facilitated Gender-Based Violence (TFGBV)</strong>.
+                </p>
+                <p id="dash-intro-2">
+                    SafeWeb brings together detection, reporting, a supportive chatbot, awareness content,
+                    and a personal safety planning tool – all in one simple web app.
+                </p>
+                <ul class="feature-list">
+                    <li id="dash-feature-detect"><strong>Detect:</strong> Screen online messages for potential TFGBV risk.</li>
+                    <li id="dash-feature-report"><strong>Report:</strong> Log incidents and generate a case ID you can share with support services.</li>
+                    <li id="dash-feature-chatbot"><strong>Chatbot:</strong> Get empathetic guidance and next steps 24/7.</li>
+                    <li id="dash-feature-awareness"><strong>Awareness:</strong> Learn about TFGBV, your rights, and how to stay safe.</li>
+                    <li id="dash-feature-safety"><strong>Safety Plan:</strong> Prepare a personal digital safety plan before abuse escalates.</li>
+                </ul>
+            </section>
+
+            <section class="card">
+                <h3 id="dash-quick-title">Quick Actions</h3>
+                <div class="quick-actions">
+                    <button class="primary" data-target="detect" id="btn-quick-detect">Check a message</button>
+                    <button class="primary-outline" data-target="report" id="btn-quick-report">Log a new incident</button>
+                    <button class="primary-outline" data-target="chatbot" id="btn-quick-chatbot">Talk to the bot</button>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3 id="dash-stats-title">Your Stats (Local Only)</h3>
+                <p class="small muted" id="dash-stats-desc">
+                    These numbers are stored only in your browser (localStorage) for demo purposes.
+                </p>
+                <div class="stats">
+                    <div>
+                        <span id="stat-incidents">0</span>
+                        <label id="stat-incidents-label">Incidents logged</label>
+                    </div>
+                    <div>
+                        <span id="stat-analyses">0</span>
+                        <label id="stat-analyses-label">Messages analyzed</label>
+                    </div>
+                    <div>
+                        <span id="stat-safety-plans">0</span>
+                        <label id="stat-safety-plans-label">Safety plans saved</label>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- DETECT -->
+    <section id="detect" class="view">
+        <section class="card">
+            <div class="card-header-with-icons">
+                <div>
+                    <h2 id="detect-title">TFGBV Risk Detection</h2>
+                    <p id="detect-desc">
+                        Paste or speak a message, comment, or DM that you are worried about. The tool will highlight
+                        potentially harmful patterns and give you a risk level. This is <strong>not</strong> a perfect AI model;
+                        it is a demo showing how automated detection could work.
+                    </p>
+                </div>
+                <div class="voice-controls">
+                    <button id="btn-detect-voice" class="icon-btn" title="Voice input">
+                        🎙
+                    </button>
+                    <button id="btn-detect-speak" class="icon-btn" title="Read result aloud">
+                        🔊
+                    </button>
+                </div>
+            </div>
+            <label for="detect-text" class="field-label" id="detect-label-text">Message or Comment</label>
+            <textarea id="detect-text" rows="6" placeholder="Paste or speak the content here..."></textarea>
+            <button id="analyze-btn" class="primary" id="detect-btn-analyze">Analyze</button>
+            <div id="detect-result" class="detect-result hidden">
+                <h3 id="detect-result-title">Analysis Result</h3>
+                <p><strong id="detect-risk-label">Risk level:</strong> <span id="risk-level"></span></p>
+                <p id="risk-summary"></p>
+                <div id="risk-keywords" class="pill-container"></div>
+                <h4 id="detect-actions-title">Recommended actions</h4>
+                <ul id="risk-actions" class="bullet-list"></ul>
+            </div>
+        </section>
+    </section>
+
+    <!-- REPORT -->
+    <section id="report" class="view">
+        <div class="grid">
+            <section class="card span-2">
+                <h2 id="report-title">Incident Reporting</h2>
+                <p id="report-desc">
+                    Use this space to document incidents of TFGBV you experience or witness. This prototype can also
+                    send an email notification to ELiDA (via the small backend service) when you submit a report.
+                </p>
+
+                <form id="incident-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="field-label" id="report-label-platform">Where did it happen?</label>
+                            <select id="platform" required>
+                                <option value="" id="report-platform-placeholder">Select platform</option>
+                                <option>Facebook</option>
+                                <option>Instagram</option>
+                                <option>Telegram</option>
+                                <option>WhatsApp</option>
+                                <option>X (Twitter)</option>
+                                <option>TikTok</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" id="report-label-type">Type of TFGBV</label>
+                            <select id="incident-type" required>
+                                <option value="" id="report-type-placeholder">Select type</option>
+                                <option>Online harassment / threats</option>
+                                <option>Non-consensual image sharing</option>
+                                <option>Doxxing (sharing private info)</option>
+                                <option>Stalking / monitoring</option>
+                                <option>Impersonation / deepfake</option>
+                                <option>Hate speech / slurs</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label" id="report-label-title">Short title</label>
+                        <input type="text" id="incident-title" placeholder="Example: Threatening message on Telegram" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label" id="report-label-description">Describe what happened</label>
+                        <textarea id="incident-description" rows="5" placeholder="Describe the incident with as much detail as you feel comfortable sharing." required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="field-label" id="report-label-date">Date (approximate is okay)</label>
+                            <input type="date" id="incident-date">
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" id="report-label-severity">Severity</label>
+                            <select id="severity">
+                                <option>Mild</option>
+                                <option>Moderate</option>
+                                <option>Severe</option>
+                                <option>I'm not sure</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="field-label" id="report-label-urgency">Do you feel in immediate danger?</label>
+                        <select id="urgency">
+                            <option>No</option>
+                            <option>Yes</option>
+                            <option>Not sure</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group-inline">
+                        <label class="field-label">
+                            <input type="checkbox" id="notify-elida" checked>
+                            <span id="report-label-notify">Email ELiDA automatically about this incident (via backend API).</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="primary" id="report-btn-submit">Save incident</button>
+                </form>
+
+                <div id="incident-success" class="alert success hidden"></div>
+                <div id="incident-error" class="alert error hidden"></div>
+            </section>
+
+            <section class="card">
+                <h3 id="report-log-title">Your Local Incident Log</h3>
+                <p class="small muted" id="report-log-desc">Only stored in your browser for demo purposes.</p>
+                <div id="incident-list" class="incident-list empty">
+                    <p class="muted small" id="report-log-empty">No incidents saved yet.</p>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- CHATBOT -->
+    <section id="chatbot" class="view">
+        <section class="card span-2">
+            <div class="card-header-with-icons">
+                <div>
+                    <h2 id="chatbot-title">Support Chatbot (Prototype)</h2>
+                    <p id="chatbot-desc">
+                        This is a rule-based demo of a TFGBV support chatbot. It is <strong>not</strong> a replacement
+                        for professional legal, medical, or psychosocial support – but it shows how a bot could respond
+                        with empathy, basic guidance, and links to resources.
+                    </p>
+                </div>
+                <div class="voice-controls">
+                    <button id="btn-chat-voice" class="icon-btn" title="Voice input">
+                        🎙
+                    </button>
+                    <button id="btn-chat-speak-last" class="icon-btn" title="Read last bot reply">
+                        🔊
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-window" id="chat-window">
+                <div class="chat-message bot">
+                    <div class="bubble" id="chatbot-welcome">
+                        Hi, I’m your SafeWeb assistant. I can explain TFGBV, help you think through your options,
+                        and suggest where you might find support. Please avoid sharing real names or very identifying details here.
+                    </div>
+                </div>
+            </div>
+
+            <form id="chat-form" class="chat-input-row">
+                <input id="chat-input" type="text" placeholder="Type your message..." autocomplete="off">
+                <button type="submit" class="primary" id="chat-btn-send">Send</button>
+            </form>
+        </section>
+    </section>
+
+    <!-- AWARENESS -->
+    <section id="awareness" class="view">
+        <section class="card span-2">
+            <h2 id="awareness-title">Awareness &amp; Learning Hub</h2>
+            <p id="awareness-desc">
+                Understanding TFGBV is the first step to preventing it. These cards show how the app could host
+                localized content, survivor stories, campus policies, and referral pathways.
+            </p>
+            <div id="awareness-grid" class="grid awareness-grid"></div>
+        </section>
+    </section>
+
+    <!-- SAFETY PLAN -->
+    <section id="safety" class="view">
+        <div class="grid">
+            <section class="card span-2">
+                <h2 id="safety-title">Personal Digital Safety Plan</h2>
+                <p id="safety-desc">
+                    A safety plan helps you think in advance about what you can do if TFGBV escalates.
+                    You can fill this in, save it in your browser, and edit it any time.
+                </p>
+
+                <form id="safety-form">
+                    <div class="form-group">
+                        <label class="field-label" id="safety-label-contacts">Trusted contacts (friends, family, mentors)</label>
+                        <textarea id="trusted-contacts" rows="3" placeholder="Names, phone numbers, or safe ways to reach them."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label" id="safety-label-platforms">Platforms you use most</label>
+                        <textarea id="safety-platforms" rows="3" placeholder="E.g. Telegram, Facebook, TikTok, etc."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label" id="safety-label-steps">Steps I will take if I’m targeted online</label>
+                        <textarea id="safety-steps" rows="4" placeholder="Example: screenshot evidence, block the person, tell a trusted friend, report to platform, contact helpline..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label" id="safety-label-helplines">Local helplines / services I can contact</label>
+                        <textarea id="safety-helplines" rows="3" placeholder="Include hotlines, campus offices, legal aid, psychosocial support where possible."></textarea>
+                    </div>
+                    <button type="submit" class="primary" id="safety-btn-save">Save safety plan</button>
+                </form>
+
+                <div id="safety-success" class="alert success hidden"></div>
+            </section>
+
+            <section class="card">
+                <h3 id="safety-preview-title">My Saved Safety Plan</h3>
+                <div id="safety-preview" class="safety-preview muted small">
+                    <p id="safety-preview-empty">No safety plan saved yet.</p>
+                </div>
+            </section>
+        </div>
+    </section>
+</main>
+
+<footer class="app-footer">
+    <p id="footer-text">SafeWeb – TFGBV Digital Safety Toolkit (Prototype for ELiDA Hackathon)</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
